@@ -1,0 +1,30 @@
+Sub AlphabetizeSelection()
+'PURPOSE: Alphabetically order (A-Z) values in a single-columned cell selection
+'SOURCE: www.TheSpreadsheetGuru.com/the-code-vault
+
+Dim myArray As Variant
+Dim rng As Range
+
+'Optimize Code
+  Application.ScreenUpdating = False
+
+'Store First Column of Cell Selection to Variable
+  On Error GoTo NoSelectedCells
+    Set rng = Selection.Columns(1)
+    rng.Select
+  On Error GoTo 0
+
+'Clear Any prior sorting
+  ActiveSheet.Sort.SortFields.Clear
+
+'Sort Range Alphabetically (A-Z)
+  rng.Sort Key1:=rng.Cells(1), Order1:=xlAscending, Header:=xlNo
+    
+Exit Sub
+
+
+'ERROR HANDLERS
+NoSelectedCells:
+MsgBox "Please select a column of cells before running this macro.", 16, "No Cells Selected"
+
+End Sub

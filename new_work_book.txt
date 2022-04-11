@@ -1,0 +1,13 @@
+Sub new_work_book()
+
+Dim sheet_name_to_create As String
+sheet_name_to_create = ActiveCell.value
+
+Set NewBook = Workbooks.Add("C:\Users\druss\Desktop\Task_and_Process_Templates.xlsx")
+ With NewBook
+ .title = sheet_name_to_create
+ .Subject = ""
+ .SaveAs Filename:=sheet_name_to_create & ".xlsx"
+ End With
+
+End Sub
