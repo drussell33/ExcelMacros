@@ -1,0 +1,53 @@
+Sub sort_jobs()
+
+    Range("B9:F100").Select '  ("B9:F100" Top left Corner to bottom right corner of all columns and rows
+    ActiveWorkbook.Worksheets("Seperating Categories").Sort.SortFields.Clear
+    ActiveWorkbook.Worksheets("Seperating Categories").Sort.SortFields.Add2 Key:= _
+        Range("C9:C100"), SortOn:=xlSortOnValues, Order:=xlAscending, DataOption:= _
+        xlSortNormal '  ("C9:C100") The cloumn that is actually sorted
+    With ActiveWorkbook.Worksheets("Seperating Categories").Sort
+        .SetRange Range("B9:F100") '  ("B9:F100" The rows that are being sorted
+        .Header = xlYes
+        .MatchCase = False
+        .Orientation = xlTopToBottom
+        .SortMethod = xlPinYin
+        .Apply
+    End With
+End Sub
+
+
+Sub add_new_sheet()
+
+    Dim sheet_name_to_create As String
+    Dim sh As Worksheet, nsh As Worksheet '  nsh = sheet_name_to_create
+    Dim nrng As Range
+    Dim cont As Worksheet
+    Dim oRng As Range
+    
+    sheet_name_to_create = ActiveCell.Value
+    Set oRng = ActiveCell
+    Set sh = Sheets("Seperating Categories")
+    
+    For rep = 1 To (Worksheets.Count)
+    If LCase(Sheets(rep).Name) = LCase(sheet_name_to_create) Then
+    
+    MsgBox "this sheet already exists"
+    Exit Sub
+    End If
+    
+    Next
+    
+    Sheets("Template to Copy").Visible = True
+    Sheets("Template to Copy").Copy after:=Sheets(Sheets.Count)
+    
+    
+    ActiveWindow.ActiveSheet.Name = sheet_name_to_create
+    [B4].Value = sheet_name_to_create
+    
+    sh.Activate
+    sh.Hyperlinks.Add oRng, "", "'" & sheet_name_to_create & "'!A1", _
+    "Go to " & sheet_name_to_create, sheet_name_to_create
+    
+    Set oRng = Nothing
+
+End Sub
